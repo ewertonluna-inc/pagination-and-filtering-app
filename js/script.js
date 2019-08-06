@@ -35,14 +35,14 @@ const numOfStudentsPerPage = 10;
        "invoke" the function 
 ***/
 
-function showPage(listElements, pageNumber){
+function showPage(liElements, pageNumber){
     const startingIndex = (pageNumber - 1) * numOfStudentsPerPage;
     const endingIndex = (pageNumber * numOfStudentsPerPage) - 1;
-    for (let i = 0; i < listElements.length; i++){
+    for (let i = 0; i < liElements.length; i++){
         if ((i >= startingIndex) && (i <= endingIndex)) {
-            listElements[i].style.display = '';
+            liElements[i].style.display = '';
         } else {
-            listElements[i].style.display = 'none';
+            liElements[i].style.display = 'none';
         }
     }
 }
@@ -52,6 +52,49 @@ function showPage(listElements, pageNumber){
    Create the `appendPageLinks function` to generate, append, and add 
    functionality to the pagination buttons.
 ***/
+function appendPageLinks(liElements){
+    const numOfLinks = Math.ceil(liElements.length / numOfStudentsPerPage);
+    const pageDiv = document.querySelector('div.page');
+    const paginationDiv = document.createElement('div');
+    paginationDiv.className = 'pagination';
+    const ul = document.createElement('ul');
+    
+    for (let i = 0; i < numOfLinks; i++){
+        let li = document.createElement('li');
+        let a = document.createElement('a');
+        a.textContent = i + 1;
+        a.href = '#';
+        if (i === 0) {
+            a.className = 'active';
+        }
+        li.appendChild(a);
+        ul.appendChild(li);
+    }
+    paginationDiv.appendChild(ul);
+    pageDiv.appendChild(paginationDiv);
+}
+
+appendPageLinks(students);
+showPage(students, 1);
+
+const linksUl = document.querySelector('div.pagination').firstElementChild;
+
+linksUl.addEventListener('click', (e) => {
+    const links = linksUl.children;
+    
+    if (e.target.tagName === 'A'){
+        for (let i = 0; i < links.length; i++) {
+            let a = links[i].firstElementChild;
+            a.className = '';
+        }
+        const link = e.target;
+        const pageNumber = link.textContent;
+        link.className = 'active';
+        showPage(students, pageNumber);
+    }
+});
+
+
 
 
 
