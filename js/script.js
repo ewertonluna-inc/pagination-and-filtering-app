@@ -29,11 +29,9 @@ pageHeaderDiv.appendChild(searchDiv);
 
 /* The following function should: 
 1 - take a li collection and an input element. 
-
 2 - If the li element matches the search then
         append li element to the namesMatched array
-3 - Create the page links on the webpage
-4 - Display the matching li elements starting from the
+3 - Display the matching li elements starting from the
     first page
 */
 function searchName(liElements, inputElement){
@@ -44,12 +42,12 @@ function searchName(liElements, inputElement){
         let nameElement = studentItem.querySelector('h3');
        
         if ((search.length !== 0) && 
-             (nameElement.textContent.toLowerCase()))
+             (nameElement.textContent.toLowerCase().includes(search.toLowerCase())))
         {
             namesMatched.push(studentItem);
         }
     }
-    appendPageLinks(namesMatched);
+
     showPage(namesMatched, 1);
 }
 
