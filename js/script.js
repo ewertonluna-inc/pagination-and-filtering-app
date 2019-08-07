@@ -13,16 +13,60 @@ const numOfStudentsPerPage = 10;
 appendPageLinks(students);
 showPage(students, 1);
 
-
 const searchDiv = createElement('div', 'className', 'student-search');
 const searchInput = createElement('input', 'placeholder', 'Search for students...');
 const searchButton = createElement('button', 'textContent', 'Search');
+searchButton.className = 'search-button';
 searchDiv.appendChild(searchInput);
 searchDiv.appendChild(searchButton);
 pageHeaderDiv.appendChild(searchDiv);
 
+/* IGNORE INDENTED COMMENT
+    //searchInput.addEventListener('keyup');
+    //searchButton.addEventListener('click');
+*/
 
 
+/* The following function should: 
+1 - take a li collection and an input element. 
+
+2 - If the li element matches the search then
+        append li element to the namesMatched array
+3 - Create the page links on the webpage
+4 - Display the matching li elements starting from the
+    first page
+*/
+function searchName(liElements, inputElement){
+    let namesMatched = [];
+    for (let i = 0; i < liElements.length; i++){
+        let search = inputElement.value;
+        let studentItem = liElements[i];
+        let nameElement = studentItem.querySelector('h3');
+       
+        if ((search.length !== 0) && 
+             (nameElement.textContent.toLowerCase()))
+        {
+            namesMatched.push(studentItem);
+        }
+    }
+    appendPageLinks(namesMatched);
+    showPage(namesMatched, 1);
+}
+
+/* These next three lines after the comments
+I'm testing the searchName function.
+1 - I hard code the searchInput value
+2 - studentUl contains all student li elements.
+3 - Passes the student li elements and the hard coded 
+    searchInput to the searchName function.
+I think it should work, but when searchName is run and
+gets to the if block, the first condition seems to always
+return false and I cant figure out why.
+(I don't know if this the exact problem, though)
+*/
+searchInput.value = 'th';
+const studentUl = document.querySelector('.student-list');
+searchName(studentUl.children, searchInput);
 
 
 function createElement(elementName, property, value){
