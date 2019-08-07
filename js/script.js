@@ -22,48 +22,39 @@ searchDiv.appendChild(searchButton);
 pageHeaderDiv.appendChild(searchDiv);
 
 /* IGNORE INDENTED COMMENT
-    //searchInput.addEventListener('keyup');
     //searchButton.addEventListener('click');
 */
 
-
-/* The following function should: 
-1 - take a li collection and an input element. 
-2 - If the li element matches the search then
-        append li element to the namesMatched array
-3 - Display the matching li elements starting from the
-    first page
-*/
 function searchName(liElements, inputElement){
-    let namesMatched = [];
+    let matchedNames = [];
     for (let i = 0; i < liElements.length; i++){
         let search = inputElement.value;
         let studentItem = liElements[i];
         let nameElement = studentItem.querySelector('h3');
        
         if ((search.length !== 0) && 
-             (nameElement.textContent.toLowerCase().includes(search.toLowerCase())))
+             (nameElement.textContent.toLowerCase()
+               .includes(search.toLowerCase())))
         {
-            namesMatched.push(studentItem);
+            matchedNames.push(studentItem);
         }
     }
-
-    showPage(namesMatched, 1);
+    return matchedNames;
 }
 
-/* These next three lines after the comments
-I'm testing the searchName function.
-1 - I hard code the searchInput value
-2 - students contains all student li elements.
-3 - students and the hard coded searchInput are passed
-    to the searchName function.
-I think it should work, but when searchName is run and
-gets to the if block, the first condition seems to always
-return false and I cant figure out why.
-(I don't know if this the exact problem, though)
-*/
-searchInput.value = 'th';
-searchName(students, searchInput);
+searchInput.addEventListener('keyup', () => {
+    const names = searchName(students, searchInput);
+    for (let i = 0; i < students.length; i++){
+        students[i].style.display = 'none';
+    }
+    if (names.length === 0) {
+        showPage(students, 1);
+        appendPageLinks(students);
+    } else {
+        showPage(names, 1);
+        appendPageLinks(names);
+    }
+});
 
 
 function createElement(elementName, property, value){
@@ -85,6 +76,11 @@ function showPage(liElements, pageNumber){
 }
 
 function appendPageLinks(liElements){
+    const isTherePaginationDiv = document.querySelector('div.pagination');
+    if (isTherePaginationDiv){
+        let parent = isTherePaginationDiv.parentNode;
+        parent.removeChild(isTherePaginationDiv);
+    }
     const numOfLinks = Math.ceil(liElements.length / numOfStudentsPerPage);
     const pageDiv = document.querySelector('div.page');
     const paginationDiv = document.createElement('div');
@@ -107,7 +103,7 @@ function appendPageLinks(liElements){
 }
 
 
-const linksUl = document.querySelector('div.pagination').firstElementChild;
+let linksUl = document.querySelector('div.pagination').firstElementChild;
 linksUl.addEventListener('click', (e) => {
     const links = linksUl.children;
     
@@ -119,6 +115,8 @@ linksUl.addEventListener('click', (e) => {
         const link = e.target;
         const pageNumber = link.textContent;
         link.className = 'active';
+
+        // This line probably needs to be changed
         showPage(students, pageNumber);
     }
 });
