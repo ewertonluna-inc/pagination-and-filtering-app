@@ -103,6 +103,11 @@ function appendPageLinks(liElements){
 }
 
 
+/* From this line down, the code works
+only if the keyup event isn't fired, which means
+that it works when div.pagination links hasn't been
+updated.
+*/
 let linksUl = document.querySelector('div.pagination').firstElementChild;
 linksUl.addEventListener('click', (e) => {
     const links = linksUl.children;
