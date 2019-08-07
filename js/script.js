@@ -56,17 +56,16 @@ function searchName(liElements, inputElement){
 /* These next three lines after the comments
 I'm testing the searchName function.
 1 - I hard code the searchInput value
-2 - studentUl contains all student li elements.
-3 - Passes the student li elements and the hard coded 
-    searchInput to the searchName function.
+2 - students contains all student li elements.
+3 - students and the hard coded searchInput are passed
+    to the searchName function.
 I think it should work, but when searchName is run and
 gets to the if block, the first condition seems to always
 return false and I cant figure out why.
 (I don't know if this the exact problem, though)
 */
 searchInput.value = 'th';
-const studentUl = document.querySelector('.student-list');
-searchName(studentUl.children, searchInput);
+searchName(students, searchInput);
 
 
 function createElement(elementName, property, value){
