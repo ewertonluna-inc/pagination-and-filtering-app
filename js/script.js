@@ -22,10 +22,25 @@ searchDiv.appendChild(searchButton);
 pageHeaderDiv.appendChild(searchDiv);
 
 
-    //searchButton.addEventListener('click');
+searchButton.addEventListener('click', () => {
+    names = searchName(students, searchInput);
+    for (let i = 0; i < students.length; i++){
+        students[i].style.display = 'none';
+    }
+    if (names.length === 0){
+        showPage(students, 1);
+        appendPageLinks(students);
+    }
+    else {
+        showPage(names, 1);
+        appendPageLinks(names);
+    }
+
+});
 
 
 function searchName(liElements, inputElement){
+    cleanNoResulstMessage();
     const matchedNames = [];
     
     
@@ -42,16 +57,8 @@ function searchName(liElements, inputElement){
         }
        
     }
-    
-    return matchedNames;
-}
-
-searchInput.addEventListener('keyup', () => {
-    cleanNoResulstMessage();
-    const names = searchName(students, searchInput);
-
-    if (names.length === 0){
-        if (searchInput.value === '') {
+    if (matchedNames.length === 0){
+        if (inputElement.value === '') {
             cleanNoResulstMessage();
         } else {
             cleanNoResulstMessage();
@@ -64,6 +71,13 @@ searchInput.addEventListener('keyup', () => {
             page.insertBefore(noResultsParagraph, ul);
         }
     }
+    
+    return matchedNames;
+}
+
+searchInput.addEventListener('keyup', () => {
+    const names = searchName(students, searchInput);
+
     for (let i = 0; i < students.length; i++){
         students[i].style.display = 'none';
     }
