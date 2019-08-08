@@ -21,12 +21,14 @@ searchDiv.appendChild(searchInput);
 searchDiv.appendChild(searchButton);
 pageHeaderDiv.appendChild(searchDiv);
 
-/* IGNORE INDENTED COMMENT
+
     //searchButton.addEventListener('click');
-*/
+
 
 function searchName(liElements, inputElement){
-    let matchedNames = [];
+    const matchedNames = [];
+    
+    
     for (let i = 0; i < liElements.length; i++){
         let search = inputElement.value;
         let studentItem = liElements[i];
@@ -38,12 +40,30 @@ function searchName(liElements, inputElement){
         {
             matchedNames.push(studentItem);
         }
+       
     }
+    
     return matchedNames;
 }
 
 searchInput.addEventListener('keyup', () => {
+    cleanNoResulstMessage();
     const names = searchName(students, searchInput);
+
+    if (names.length === 0){
+        if (searchInput.value === '') {
+            cleanNoResulstMessage();
+        } else {
+            cleanNoResulstMessage();
+            const page = pageHeaderDiv.parentNode;
+            const ul = document.querySelector('ul.student-list');
+            const noResultsParagraph = createElement('p', 'id', 'noResultsMessage');
+            noResultsParagraph.textContent = 'NO MATCHING RESULTS';
+            noResultsParagraph.style.color = 'red';
+            page.appendChild(noResultsParagraph);
+            page.insertBefore(noResultsParagraph, ul);
+        }
+    }
     for (let i = 0; i < students.length; i++){
         students[i].style.display = 'none';
     }
@@ -56,6 +76,13 @@ searchInput.addEventListener('keyup', () => {
     }
 });
 
+function cleanNoResulstMessage(){
+    const noResultsParagraph = document.getElementById('noResultsMessage');
+    if (noResultsParagraph){
+        const parent = noResultsParagraph.parentNode;
+        parent.removeChild(noResultsParagraph);
+    }
+}
 
 function createElement(elementName, property, value){
     const element = document.createElement(elementName);
