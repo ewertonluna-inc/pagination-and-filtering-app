@@ -100,28 +100,25 @@ function appendPageLinks(liElements){
     }
     paginationDiv.appendChild(ul);
     pageDiv.appendChild(paginationDiv);
+    addClickEventListenerToUl(ul, liElements);
+    
 }
 
 
-/* From this line down, the code works
-only if the keyup event isn't fired, which means
-that it works when div.pagination links hasn't been
-updated.
-*/
-let linksUl = document.querySelector('div.pagination').firstElementChild;
-linksUl.addEventListener('click', (e) => {
-    const links = linksUl.children;
-    
-    if (e.target.tagName === 'A'){
-        for (let i = 0; i < links.length; i++) {
-            let a = links[i].firstElementChild;
-            a.className = '';
-        }
-        const link = e.target;
-        const pageNumber = link.textContent;
-        link.className = 'active';
+function addClickEventListenerToUl(ul, studentLiItems){
+    const links = ul.children;
 
-        // This line probably needs to be changed
-        showPage(students, pageNumber);
-    }
-});
+    ul.addEventListener('click', (e) => {
+        if (e.target.tagName === 'A'){
+            for (let i = 0; i < links.length; i++){
+                let a = links[i].firstElementChild;
+                a.className = '';
+            }
+            const link = e.target;
+            const pageNumber = link.textContent;
+            link.className = 'active';
+            showPage(studentLiItems, pageNumber);
+        }
+    });
+}
+
