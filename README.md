@@ -1,4 +1,4 @@
-# techdegree_project_2
+# Pagination and Filtering App
  My second techdegree project
 
 In this project, it's used a commom web development technique known as "pagination" to enhance the usability of a webpage.
